@@ -3,12 +3,14 @@
 
 #include <deque>
 #include <boost/asio.hpp>
+#include <memory>
 
 #include "message.h"
 
 typedef std::deque<Message> chat_message_queue;
 
 class Room;
+class Player;
 
 class Participant
 {
@@ -40,6 +42,7 @@ private:
 
     boost::asio::ip::tcp::socket socket_;
     Room& room_;
+    std::shared_ptr<Player> player_;
     Message read_msg_;
     chat_message_queue write_msgs_;
 };

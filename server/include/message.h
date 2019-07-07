@@ -16,6 +16,13 @@ public:
     {
     }
 
+    Message(const std::string& message)
+    {
+        body_length(message.size());
+        std::memcpy(body(), message.c_str(), body_length());
+        encode_header();
+    }
+
     const char* data() const
     {
         return data_;

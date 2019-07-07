@@ -3,10 +3,13 @@
 #include <memory>
 
 #include "room.h"
+#include "player.h"
+#include "request_handler.h"
 
 Session::Session(boost::asio::ip::tcp::socket socket, Room& room)
     : socket_(std::move(socket)),
-    room_(room)
+    room_(room),
+    player_(std::make_shared<Player>(*this, room))
 {
 }
 
@@ -53,7 +56,7 @@ void Session::do_read_body()
     {
         if (!ec)
         {
-            room_.deliver(read_msg_);
+            RequestHandler::handleRequest(read_msg_, player_);
             do_read_header();
         } else
         {
