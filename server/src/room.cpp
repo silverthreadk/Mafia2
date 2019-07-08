@@ -1,6 +1,16 @@
 #include "room.h"
 
 #include "session.h"
+#include "game.h"
+
+Room::Room() :
+    game_(nullptr)
+{
+}
+
+Room::~Room()
+{
+}
 
 void Room::join(chat_participant_ptr participant)
 {
@@ -22,4 +32,9 @@ void Room::deliver(const Message& msg)
 
     for (auto participant : participants_)
         participant->deliver(msg);
+}
+
+void Room::playGame() {
+    game_ = std::make_shared<Game>(participants_);
+    game_->play();
 }

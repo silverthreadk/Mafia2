@@ -33,6 +33,8 @@ public:
 
     void deliver(const Message& msg);
 
+    std::shared_ptr<Player> getPlayer() { return player_; };
+
 private:
     void do_read_header();
 

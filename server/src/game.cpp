@@ -1,0 +1,48 @@
+#include "game.h"
+
+#include <algorithm>
+#include <random>
+
+#include "session.h"
+#include "player.h"
+
+Game::Game(std::set<chat_participant_ptr>& players)
+{
+    for (auto player : players) {
+        auto session = std::dynamic_pointer_cast<Session>(player);
+        players_.insert(session->getPlayer());
+    }
+}
+
+Game::~Game()
+{
+}
+
+void Game::play()
+{
+    assignRoles();
+
+    for (auto player : players_) {
+        player->play(shared_from_this());
+    }
+}
+
+void Game::assignRoles()
+{
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::vector<std::shared_ptr<Player> > player_list(players_.begin(), players_.end());
+    std::shuffle(player_list.begin(), player_list.end(), g);
+
+    number_of_mafia_ = players_.size() / 3;
+
+    for (int i = 0; i < number_of_mafia_; ++i) {
+        mafia_.insert(player_list[i]);
+        player_list[i]->notify("you are mafia!");
+    }
+
+    for (int i = number_of_mafia_; i < player_list.size(); ++i) {
+        innocents_.insert(player_list[i]);
+        player_list[i]->notify("you are innocent!");
+    }
+}

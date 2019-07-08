@@ -17,7 +17,11 @@ void RequestHandler::handleRequest(const Message& msg, std::shared_ptr<Player> p
 {
     const std::vector<std::string> command = RequestHandler::parse(msg);
 
-    if (command.size() >= 2) {
+    if (command.size() == 1) {
+        if (command[0] == "/START") {
+            player->startGame();
+        }
+    } else if (command.size() >= 2) {
         if (command[0] == "/CHAT") {
             player->chat(command[1]);
         } else if (command[0] == "/NICK") {

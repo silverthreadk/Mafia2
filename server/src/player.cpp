@@ -1,7 +1,8 @@
 #include "player.h"
 
-#include "Session.h"
-#include "Room.h"
+#include "session.h"
+#include "room.h"
+#include "game.h"
 
 
 Player::Player(Session & session, Room & room) :
@@ -14,6 +15,10 @@ Player::~Player()
 {
 }
 
+void Player::notify(const std::string& message) {
+    session_.deliver(Message(message));
+}
+
 void Player::chat(const std::string& message) {
     std::string chat_message = nickname_ + " : " + message;
 
@@ -22,5 +27,13 @@ void Player::chat(const std::string& message) {
 
 void Player::changeNickname(const std::string& nickname) {
     nickname_ = nickname;
-    session_.deliver(Message("Nickname has changed to " + nickname_ + "."));
+    notify("Nickname has changed to " + nickname_ + ".");
+}
+
+void Player::startGame() {
+    room_.playGame();
+}
+
+void Player::play(std::shared_ptr<Game> game) {
+    game_ = game;
 }
