@@ -7,7 +7,9 @@
 
 Player::Player(Session & session, Room & room) :
     session_(session),
-    room_(room)
+    room_(room),
+    role_(INOCCENT),
+    dead_(true)
 {
 }
 
@@ -34,6 +36,8 @@ void Player::startGame() {
     room_.playGame();
 }
 
-void Player::play(std::shared_ptr<Game> game) {
+void Player::play(std::shared_ptr<Game> game, ROLE role) {
     game_ = game;
+    role_ = role;
+    dead_ = false;
 }

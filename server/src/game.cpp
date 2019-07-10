@@ -21,10 +21,6 @@ Game::~Game()
 void Game::play()
 {
     assignRoles();
-
-    for (auto player : players_) {
-        player->play(shared_from_this());
-    }
 }
 
 void Game::assignRoles()
@@ -38,11 +34,13 @@ void Game::assignRoles()
 
     for (int i = 0; i < number_of_mafia_; ++i) {
         mafia_.insert(player_list[i]);
+        player_list[i]->play(shared_from_this(), Player::ROLE::MAFIA);
         player_list[i]->notify("you are mafia!");
     }
 
     for (int i = number_of_mafia_; i < player_list.size(); ++i) {
         innocents_.insert(player_list[i]);
+        player_list[i]->play(shared_from_this());
         player_list[i]->notify("you are innocent!");
     }
 }
