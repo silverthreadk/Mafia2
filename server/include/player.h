@@ -26,6 +26,8 @@ public:
 
     void play(std::shared_ptr<Game> game, ROLE role = INOCCENT);
 
+    void voteTo(const std::string& nickname);
+
 private:
     Session& session_;
     Room& room_;
@@ -33,6 +35,7 @@ private:
     std::string nickname_;
     ROLE role_;
     bool dead_;
+    bool voted_;
 };
 
 #endif

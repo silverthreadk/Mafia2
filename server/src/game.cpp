@@ -44,3 +44,8 @@ void Game::assignRoles()
         player_list[i]->notify("you are innocent!");
     }
 }
+
+bool Game::handleVoting(const std::string& nickname)
+{
+    return true;
+}

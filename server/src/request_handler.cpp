@@ -26,6 +26,8 @@ void RequestHandler::handleRequest(const Message& msg, std::shared_ptr<Player> p
             player->chat(command[1]);
         } else if (command[0] == "/NICK") {
             player->changeNickname(command[1]);
+        } else if (command[0] == "/VOTE") {
+            player->voteTo(command[1]);
         }
     }
 }

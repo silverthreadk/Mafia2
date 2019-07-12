@@ -18,6 +18,8 @@ public:
 
     void play();
 
+    bool handleVoting(const std::string& nickname);
+
 private:
     void assignRoles();
 
