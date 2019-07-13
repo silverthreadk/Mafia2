@@ -28,6 +28,8 @@ public:
 
     void voteTo(const std::string& nickname);
 
+    std::string getNickname() { return nickname_; }
+
 private:
     Session& session_;
     Room& room_;

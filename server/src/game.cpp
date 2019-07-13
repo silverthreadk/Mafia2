@@ -10,7 +10,7 @@ Game::Game(std::set<chat_participant_ptr>& players)
 {
     for (auto player : players) {
         auto session = std::dynamic_pointer_cast<Session>(player);
-        players_.insert(session->getPlayer());
+        players_[session->getPlayer()->getNickname()] = session->getPlayer();
     }
 }
 
@@ -27,8 +27,10 @@ void Game::assignRoles()
 {
     std::random_device rd;
     std::mt19937 g(rd());
-    std::vector<std::shared_ptr<Player> > player_list(players_.begin(), players_.end());
-    std::shuffle(player_list.begin(), player_list.end(), g);
+    std::vector<std::shared_ptr<Player> > player_list;
+    std::transform(players_.begin(), players_.end(), back_inserter(player_list), [](std::pair<std::string, std::shared_ptr<Player> > const & pair) {
+        return pair.second;
+    });
 
     number_of_mafia_ = players_.size() / 3;
 

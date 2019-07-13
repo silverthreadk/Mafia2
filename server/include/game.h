@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+#include <map>
 #include <set>
 
 class Player;
@@ -24,7 +25,7 @@ private:
     void assignRoles();
 
 private:
-    std::set<std::shared_ptr<Player> > players_;
+    std::map<std::string, std::shared_ptr<Player> > players_;
     std::set<std::shared_ptr<Player> > mafia_;
     std::set<std::shared_ptr<Player> > innocents_;
 
