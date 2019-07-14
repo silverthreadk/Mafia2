@@ -5,8 +5,10 @@
 
 #include "session.h"
 #include "player.h"
+#include "game_state.h"
 
-Game::Game(std::set<chat_participant_ptr>& players)
+Game::Game(std::set<chat_participant_ptr>& players) :
+    state_(std::make_unique<GameState>())
 {
     for (auto player : players) {
         auto session = std::dynamic_pointer_cast<Session>(player);

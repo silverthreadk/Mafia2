@@ -7,6 +7,7 @@
 #include <set>
 
 class Player;
+class GameState;
 class Participant;
 typedef std::shared_ptr<Participant> chat_participant_ptr;
 
@@ -28,6 +29,8 @@ private:
     std::map<std::string, std::shared_ptr<Player> > players_;
     std::set<std::shared_ptr<Player> > mafia_;
     std::set<std::shared_ptr<Player> > innocents_;
+
+    std::unique_ptr<GameState>state_;
 
     int number_of_mafia_;
 };
