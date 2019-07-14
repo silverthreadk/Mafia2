@@ -35,6 +35,6 @@ void Room::deliver(const Message& msg)
 }
 
 void Room::playGame() {
-    game_ = std::make_shared<Game>(participants_);
+    game_ = std::make_shared<Game>(participants_, *this);
     game_->play();
 }

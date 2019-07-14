@@ -4,10 +4,12 @@
 #include <random>
 
 #include "session.h"
+#include "room.h"
 #include "player.h"
 #include "game_state.h"
 
-Game::Game(std::set<chat_participant_ptr>& players) :
+Game::Game(std::set<chat_participant_ptr>& players, Room& room) :
+    room_(room),
     state_(std::make_unique<GameState>())
 {
     for (auto player : players) {
@@ -18,6 +20,10 @@ Game::Game(std::set<chat_participant_ptr>& players) :
 
 Game::~Game()
 {
+}
+
+void Game::notify(const std::string& message) {
+    room_.deliver(Message(message));
 }
 
 void Game::play()
@@ -34,7 +40,8 @@ void Game::assignRoles()
         return pair.second;
     });
 
-    number_of_mafia_ = players_.size() / 3;
+    number_of_survivors_ = players_.size();
+    number_of_mafia_ = number_of_survivors_ / 3;
 
     for (int i = 0; i < number_of_mafia_; ++i) {
         mafia_.insert(player_list[i]);
@@ -49,7 +56,23 @@ void Game::assignRoles()
     }
 }
 
-bool Game::handleVoting(const std::string& nickname)
+bool Game::handleVoting(const std::string& previous, const std::string& suspicious)
 {
+    if (!state_->isDay()) return false;
+
+    auto it = players_.find(suspicious);
+    if (it == players_.end()) return false;
+
+    ballot_box_[suspicious] += 1;
+
+    it = players_.find(previous);
+    if (it != players_.end()) {
+        ballot_box_[previous] -= 1;
+    }
+
+    if (ballot_box_[suspicious] > number_of_survivors_) {
+        state_->changeNextState();
+    }
+
     return true;
 }

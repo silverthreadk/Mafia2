@@ -10,7 +10,7 @@ Player::Player(Session & session, Room & room) :
     room_(room),
     role_(INOCCENT),
     dead_(true),
-    voted_(false)
+    suspicious_("")
 {
 }
 
@@ -43,11 +43,17 @@ void Player::play(std::shared_ptr<Game> game, ROLE role) {
     dead_ = false;
 }
 
-void Player::voteTo(const std::string& nickname) {
+void Player::voteFor(const std::string& nickname) {
     if (!game_) return;
-    if (voted_) return;
+    if (dead_) return;
 
-    if (!game_->handleVoting(nickname)) return;
+    if (!game_->handleVoting(suspicious_, nickname)) return;
 
-    voted_ = true;
+    if (suspicious_ == "") {
+        game_->notify(nickname_ + " voted for " + nickname + ".");
+    } else {
+        game_->notify(nickname_ + " has changed vote from " + suspicious_ + " to " + nickname + ".");
+    }
+
+    suspicious_ = nickname;
 }

@@ -26,7 +26,7 @@ public:
 
     void play(std::shared_ptr<Game> game, ROLE role = INOCCENT);
 
-    void voteTo(const std::string& nickname);
+    void voteFor(const std::string& nickname);
 
     std::string getNickname() { return nickname_; }
 
@@ -37,7 +37,7 @@ private:
     std::string nickname_;
     ROLE role_;
     bool dead_;
-    bool voted_;
+    std::string suspicious_;
 };
 
 #endif
