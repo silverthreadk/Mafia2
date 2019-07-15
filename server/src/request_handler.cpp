@@ -15,6 +15,7 @@ RequestHandler::RequestHandler()
 
 void RequestHandler::handleRequest(const Message& msg, std::shared_ptr<Player> player)
 {
+    if (msg.body_length() == 0) return;
     const std::vector<std::string> command = RequestHandler::parse(msg);
 
     if (command.size() == 1) {
