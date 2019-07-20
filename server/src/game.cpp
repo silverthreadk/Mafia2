@@ -42,6 +42,7 @@ void Game::assignRoles()
     std::transform(players_.begin(), players_.end(), back_inserter(player_list), [](std::pair<std::string, std::shared_ptr<Player> > const & pair) {
         return pair.second;
     });
+    std::shuffle(player_list.begin(), player_list.end(), g);
 
     number_of_survivors_ = players_.size();
     number_of_mafia_ = number_of_survivors_ / 3;
