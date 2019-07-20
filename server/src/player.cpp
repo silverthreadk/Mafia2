@@ -30,7 +30,7 @@ void Player::chat(const std::string& message) {
 
 void Player::changeNickname(const std::string& nickname) {
     nickname_ = nickname;
-    notify("Nickname has changed to " + nickname_ + ".");
+    notify("Nickname has been changed to " + nickname_ + ".");
 }
 
 void Player::startGame() {
