@@ -28,6 +28,12 @@ public:
 
     void voteFor(const std::string& nickname);
 
+    void vote(const bool mafia);
+
+    void die();
+
+    bool isMafia() { return role_ == MAFIA; }
+
     std::string getNickname() { return nickname_; }
 
 private:
@@ -38,6 +44,7 @@ private:
     ROLE role_;
     bool dead_;
     std::string suspicious_;
+    bool voted_;
 };
 
 #endif

@@ -25,6 +25,10 @@ public:
 
     bool handleVoting(const std::string& previous, const std::string& suspicious);
 
+    void checkVoting(const std::string& suspicious);
+
+    bool handleVoting(const bool mafia);
+
 private:
     void assignRoles();
 
@@ -41,6 +45,10 @@ private:
 
     int number_of_survivors_;
     int number_of_mafia_;
+
+    std::string suspicious_;
+    int number_of_vote_;
+    int number_of_vote_on_mafia_;
 };
 
 #endif

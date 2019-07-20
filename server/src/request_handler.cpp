@@ -21,6 +21,10 @@ void RequestHandler::handleRequest(const Message& msg, std::shared_ptr<Player> p
     if (command.size() == 1) {
         if (command[0] == "/START") {
             player->startGame();
+        } else if (command[0] == "/MAFIA") {
+            player->vote(true);
+        } else if (command[0] == "/INNOCENT") {
+            player->vote(false);
         }
     } else if (command.size() >= 2) {
         if (command[0] == "/CHAT") {

@@ -10,7 +10,8 @@ Player::Player(Session & session, Room & room) :
     room_(room),
     role_(INOCCENT),
     dead_(true),
-    suspicious_("")
+    suspicious_(""),
+    voted_(false)
 {
 }
 
@@ -56,4 +57,22 @@ void Player::voteFor(const std::string& nickname) {
     }
 
     suspicious_ = nickname;
+
+    game_->checkVoting(suspicious_);
+}
+
+void Player::vote(const bool mafia) {
+    if (!game_) return;
+    if (dead_) return;
+    if (voted_) return;
+
+    game_->handleVoting(mafia);
+
+}
+
+void Player::die() {
+    if (dead_) return;
+    dead_ = true;
+
+    game_->notify(nickname_ + " died.");
 }
