@@ -39,7 +39,7 @@ public:
 private:
     Session& session_;
     Room& room_;
-    std::shared_ptr<Game> game_;
+    std::weak_ptr<Game> game_;
     std::string nickname_;
     ROLE role_;
     bool dead_;

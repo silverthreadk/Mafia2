@@ -5,7 +5,7 @@
 #include "game.h"
 
 
-Player::Player(Session & session, Room & room) :
+Player::Player(Session& session, Room& room) :
     session_(session),
     room_(room),
     role_(INOCCENT),
@@ -45,34 +45,37 @@ void Player::play(std::shared_ptr<Game> game, ROLE role) {
 }
 
 void Player::voteFor(const std::string& nickname) {
-    if (!game_) return;
+    if (game_.expired()) return;
     if (dead_) return;
+    auto game = game_.lock();
 
-    if (!game_->handleVoting(suspicious_, nickname)) return;
+    if (!game->handleVoting(suspicious_, nickname)) return;
 
     if (suspicious_ == "") {
-        game_->notify(nickname_ + " voted for " + nickname + ".");
+        game->notify(nickname_ + " voted for " + nickname + ".");
     } else {
-        game_->notify(nickname_ + " has changed vote from " + suspicious_ + " to " + nickname + ".");
+        game->notify(nickname_ + " has changed vote from " + suspicious_ + " to " + nickname + ".");
     }
 
     suspicious_ = nickname;
 
-    game_->checkVoting(suspicious_);
+    game->checkVoting(suspicious_);
 }
 
 void Player::vote(const bool mafia) {
-    if (!game_) return;
+    if (game_.expired()) return;
     if (dead_) return;
     if (voted_) return;
 
-    game_->handleVoting(mafia);
-
+    auto game = game_.lock();
+    game->handleVoting(mafia);
 }
 
 void Player::die() {
+    if (game_.expired()) return;
     if (dead_) return;
     dead_ = true;
 
-    game_->notify(nickname_ + " died.");
+    auto game = game_.lock();
+    game->notify(nickname_ + " died.");
 }
