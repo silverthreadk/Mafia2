@@ -2,6 +2,9 @@
 #define GAME_STATE_H_
 
 #include <string>
+#include <memory>
+
+class Game;
 
 class GameState {
 public:
@@ -11,7 +14,7 @@ public:
         NIGHT
     };
 
-    GameState();
+    GameState(Game& game);
     ~GameState();
 
     void changeNextState();
@@ -24,5 +27,7 @@ public:
 
 private:
     STATE state_;
+
+    Game& game_;
 };
 #endif

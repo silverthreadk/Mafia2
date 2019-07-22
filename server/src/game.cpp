@@ -10,7 +10,7 @@
 
 Game::Game(std::set<chat_participant_ptr>& players, Room& room) :
     room_(room),
-    state_(std::make_unique<GameState>()),
+    state_(std::make_unique<GameState>(*this)),
     suspicious_(""),
     number_of_vote_(0),
     number_of_vote_on_mafia_(0)
@@ -81,10 +81,8 @@ void Game::checkVoting(const std::string& suspicious)
 {
     if (ballot_box_[suspicious] <= number_of_survivors_ / 2) return;
 
-    state_->changeNextState();
     suspicious_ = suspicious;
-    notify(suspicious + " can make the final statement.");
-    notify("If you think that " + suspicious + " is mafia, send </mafia>. If not, send </innocent>.");
+    state_->changeNextState();
 }
 
 bool Game::handleVoting(const bool mafia)
@@ -104,14 +102,12 @@ bool Game::handleVoting(const bool mafia)
                 notify(suspicious_ + " is not mafia.");
             }
             state_->changeNextState();
-            notify("Night started, be silent.");
             return true;
         }
     }
 
     if (number_of_vote_ - number_of_vote_on_mafia_ > number_of_survivors_ / 2) {
         state_->changeNextState();
-        notify("Night started, be silent.");
     }
 
     return true;

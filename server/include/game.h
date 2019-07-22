@@ -29,6 +29,8 @@ public:
 
     bool handleVoting(const bool mafia);
 
+    const std::string& getSuspicious() { return suspicious_; }
+
 private:
     void assignRoles();
 
