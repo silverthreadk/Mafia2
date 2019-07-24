@@ -34,6 +34,8 @@ public:
 
     bool isMafia() { return role_ == MAFIA; }
 
+    bool isAlive() { return !dead_; }
+
     std::string getNickname() { return nickname_; }
 
 private:

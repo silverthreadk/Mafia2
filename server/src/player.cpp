@@ -26,6 +26,14 @@ void Player::notify(const std::string& message) {
 void Player::chat(const std::string& message) {
     std::string chat_message = nickname_ + " : " + message;
 
+    if (!game_.expired()) {
+        auto game = game_.lock();
+        if (game->isNight()) {
+            if (role_ == MAFIA) game->mafiaChat(chat_message);
+            return;
+        }
+    }
+
     room_.deliver(Message(chat_message));
 }
 

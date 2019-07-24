@@ -21,6 +21,8 @@ public:
 
     void notify(const std::string& message);
 
+    void mafiaChat(const std::string& message);
+
     void play();
 
     bool handleVoting(const std::string& previous, const std::string& suspicious);
@@ -28,6 +30,8 @@ public:
     void checkVoting(const std::string& suspicious);
 
     bool handleVoting(const bool mafia);
+
+    bool isNight();
 
     const std::string& getSuspicious() { return suspicious_; }
 

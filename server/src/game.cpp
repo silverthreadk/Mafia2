@@ -29,6 +29,13 @@ void Game::notify(const std::string& message) {
     room_.deliver(Message(message));
 }
 
+void Game::mafiaChat(const std::string& message) {
+    for (auto mafia : mafia_) {
+        if (!mafia->isAlive()) continue;
+        mafia->notify(message);
+    }
+}
+
 void Game::play()
 {
     assignRoles();
@@ -112,3 +119,6 @@ bool Game::handleVoting(const bool mafia)
 
     return true;
 }
+
+bool Game::isNight() { return state_->isNight(); }
+
