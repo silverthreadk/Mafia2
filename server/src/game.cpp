@@ -120,5 +120,9 @@ bool Game::handleVoting(const bool mafia)
     return true;
 }
 
+void Game::handleKilling(const std::string& target) {
+    players_[target]->die();
+}
+
 bool Game::isNight() { return state_->isNight(); }
 

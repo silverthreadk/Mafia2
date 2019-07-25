@@ -33,6 +33,8 @@ void RequestHandler::handleRequest(const Message& msg, std::shared_ptr<Player> p
             player->changeNickname(command[1]);
         } else if (command[0] == "/VOTE") {
             player->voteFor(command[1]);
+        } else if (command[0] == "/KILL") {
+            player->kill(command[1]);
         }
     }
 }

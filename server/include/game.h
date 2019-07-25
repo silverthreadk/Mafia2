@@ -31,6 +31,8 @@ public:
 
     bool handleVoting(const bool mafia);
 
+    void handleKilling(const std::string& target);
+
     bool isNight();
 
     const std::string& getSuspicious() { return suspicious_; }

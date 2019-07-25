@@ -32,6 +32,8 @@ public:
 
     void die();
 
+    void kill(const std::string& nickname);
+
     bool isMafia() { return role_ == MAFIA; }
 
     bool isAlive() { return !dead_; }

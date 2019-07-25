@@ -79,6 +79,17 @@ void Player::vote(const bool mafia) {
     game->handleVoting(mafia);
 }
 
+void Player::kill(const std::string& nickname) {
+    if (game_.expired()) return;
+    if (dead_) return;
+    if (!isMafia()) return;
+
+    auto game = game_.lock();
+    if (!game->isNight()) return;
+
+    game->handleKilling(nickname);
+}
+
 void Player::die() {
     if (game_.expired()) return;
     if (dead_) return;

@@ -24,6 +24,7 @@ void GameState::changeNextState()
         case STATE::FINAL_STATEMENT: {
             state_ = STATE::NIGHT;
             game_.notify("Night started, be silent.");
+            game_.mafiaChat("Mafia are allowed to chat to decide on whom to kill. If you decided to kill, send </kill nickname>");
             break;
         }
         case STATE::NIGHT: {
