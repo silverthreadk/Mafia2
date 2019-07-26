@@ -38,6 +38,11 @@ void Player::chat(const std::string& message) {
 }
 
 void Player::changeNickname(const std::string& nickname) {
+    if (!game_.expired()) {
+        notify("Allow to change the nickname only before the game is started.");
+        return;
+    }
+
     nickname_ = nickname;
     notify("Nickname has been changed to " + nickname_ + ".");
 }
