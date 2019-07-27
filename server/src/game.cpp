@@ -39,6 +39,7 @@ void Game::mafiaChat(const std::string& message) {
 void Game::play()
 {
     assignRoles();
+    state_->changeNextState();
 }
 
 void Game::assignRoles()
