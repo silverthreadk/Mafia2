@@ -30,7 +30,7 @@ public:
 
     void vote(const bool mafia);
 
-    void die();
+    bool die();
 
     void kill(const std::string& nickname);
 

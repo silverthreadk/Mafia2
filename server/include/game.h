@@ -40,6 +40,8 @@ public:
 private:
     void assignRoles();
 
+    bool gameOver();
+
 private:
     Room& room_;
 

@@ -28,6 +28,8 @@ public:
 
     void playGame();
 
+    void gameOver();
+
 private:
     std::set<chat_participant_ptr> participants_;
     enum { max_recent_msgs = 100 };

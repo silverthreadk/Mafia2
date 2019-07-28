@@ -15,6 +15,8 @@ GameState::GameState(Game& game) :
 
 GameState::~GameState()
 {
+    io_.stop();
+    timer_.cancel_one();
 }
 
 void GameState::changeNextState()

@@ -105,10 +105,16 @@ bool Game::handleVoting(const bool mafia)
             players_[suspicious_]->die();
             --number_of_survivors_;
             if (players_[suspicious_]->isMafia()) {
+                --number_of_mafia_;
                 notify(suspicious_ + " is mafia.");
             } else {
                 notify(suspicious_ + " is not mafia.");
             }
+            if (gameOver()) {
+                room_.gameOver();
+                return true;
+            }
+
             state_->changeNextState();
             return true;
         }
@@ -122,7 +128,26 @@ bool Game::handleVoting(const bool mafia)
 }
 
 void Game::handleKilling(const std::string& target) {
-    players_[target]->die();
+    if (!players_[target]->die()) return;
+    if (players_[target]->isMafia()) --number_of_mafia_;
+    --number_of_survivors_;
+    if (gameOver()) {
+        room_.gameOver();
+        return;
+    }
+
+    state_->changeNextState();
+}
+
+bool Game::gameOver() {
+    if (number_of_mafia_ == 0) {
+        notify("Innocents win!");
+        return true;
+    } else if (number_of_survivors_ - number_of_mafia_ <= number_of_mafia_) {
+        notify("Mafia win!");
+        return true;
+    }
+    return false;
 }
 
 bool Game::isNight() { return state_->isNight(); }

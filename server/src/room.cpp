@@ -38,3 +38,7 @@ void Room::playGame() {
     game_ = std::make_shared<Game>(participants_, *this);
     game_->play();
 }
+
+void Room::gameOver() {
+    game_ = nullptr;
+}

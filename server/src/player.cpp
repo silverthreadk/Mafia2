@@ -95,11 +95,13 @@ void Player::kill(const std::string& nickname) {
     game->handleKilling(nickname);
 }
 
-void Player::die() {
-    if (game_.expired()) return;
-    if (dead_) return;
+bool Player::die() {
+    if (game_.expired()) return false;
+    if (dead_) return false;
     dead_ = true;
 
     auto game = game_.lock();
     game->notify(nickname_ + " died.");
+
+    return true;
 }
