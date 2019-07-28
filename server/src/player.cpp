@@ -8,7 +8,7 @@
 Player::Player(Session& session, Room& room) :
     session_(session),
     room_(room),
-    role_(INOCCENT),
+    role_(INNOCENT),
     dead_(true),
     suspicious_(""),
     voted_(false)

@@ -10,7 +10,7 @@ class Game;
 
 class Player{
 public:
-    enum ROLE { INOCCENT, MAFIA };
+    enum ROLE { INNOCENT, MAFIA };
 
     Player(Session& session, Room& room);
 
@@ -24,7 +24,7 @@ public:
 
     void startGame();
 
-    void play(std::shared_ptr<Game> game, ROLE role = INOCCENT);
+    void play(std::shared_ptr<Game> game, ROLE role = INNOCENT);
 
     void voteFor(const std::string& nickname);
 
