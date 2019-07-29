@@ -41,6 +41,8 @@ void GameState::changeNextState()
         case STATE::NIGHT: {
             state_ = STATE::DAY;
             ++phase_;
+            game_.notify("Night has fallen.");
+            game_.notify("Players should debate the identities of the mafia and vote to eliminate a suspect.");
             timer_ = boost::asio::deadline_timer(io_, boost::posix_time::seconds(kDayTime));
             std::cout << "day" << std::endl;
             break;
