@@ -26,6 +26,8 @@ public:
 
     void play(std::shared_ptr<Game> game, ROLE role = INNOCENT);
 
+    void readyForNextPhase();
+
     void voteFor(const std::string& nickname);
 
     void vote(const bool mafia);

@@ -51,6 +51,11 @@ void Player::startGame() {
     room_.playGame();
 }
 
+void Player::readyForNextPhase() {
+    suspicious_ = "";
+    voted_ = false;
+}
+
 void Player::play(std::shared_ptr<Game> game, ROLE role) {
     game_ = game;
     role_ = role;

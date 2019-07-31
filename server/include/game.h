@@ -25,6 +25,8 @@ public:
 
     void play();
 
+    void readyForNextPhase();
+
     bool handleVoting(const std::string& previous, const std::string& suspicious);
 
     void checkVoting(const std::string& suspicious);

@@ -12,6 +12,8 @@ Game::Game(std::set<chat_participant_ptr>& players, Room& room) :
     room_(room),
     state_(std::make_unique<GameState>(*this)),
     suspicious_(""),
+    number_of_survivors_(0),
+    number_of_mafia_(0),
     number_of_vote_(0),
     number_of_vote_on_mafia_(0)
 {
@@ -65,6 +67,17 @@ void Game::assignRoles()
         innocents_.insert(player_list[i]);
         player_list[i]->play(shared_from_this());
         player_list[i]->notify("you are innocent!");
+    }
+}
+
+void Game::readyForNextPhase() {
+    ballot_box_.clear();
+    suspicious_ = "";
+    number_of_vote_ = 0;
+    number_of_vote_on_mafia_ = 0;
+
+    for (auto player : players_) {
+        player.second->readyForNextPhase();
     }
 }
 
