@@ -48,6 +48,10 @@ void Player::changeNickname(const std::string& nickname) {
 }
 
 void Player::startGame() {
+    if (!game_.expired()) {
+        notify("Game is already running.");
+        return;
+    }
     room_.playGame();
 }
 
