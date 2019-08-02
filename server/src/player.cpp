@@ -47,6 +47,15 @@ void Player::changeNickname(const std::string& nickname) {
     notify("Nickname has been changed to " + nickname_ + ".");
 }
 
+void Player::notifyList() {
+    if (game_.expired()) {
+        return;
+    }
+    auto game = game_.lock();
+
+    notify("Survivors : " + game->getAlivePlayers());
+}
+
 void Player::startGame() {
     if (!game_.expired()) {
         notify("Game is already running.");

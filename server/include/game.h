@@ -23,6 +23,8 @@ public:
 
     void mafiaChat(const std::string& message);
 
+    std::string getAlivePlayers();
+
     void play();
 
     void readyForNextPhase();

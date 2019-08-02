@@ -22,6 +22,8 @@ public:
 
     void changeNickname(const std::string& nickname);
 
+    void notifyList();
+
     void startGame();
 
     void play(std::shared_ptr<Game> game, ROLE role = INNOCENT);

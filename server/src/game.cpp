@@ -38,6 +38,15 @@ void Game::mafiaChat(const std::string& message) {
     }
 }
 
+std::string Game::getAlivePlayers() {
+    std::string alive_players = "";
+    for (auto player : players_) {
+        if (!player.second->isAlive()) continue;
+        alive_players += player.second->getNickname() + " / ";
+    }
+    return alive_players;
+}
+
 void Game::play()
 {
     assignRoles();
