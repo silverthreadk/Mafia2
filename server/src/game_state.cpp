@@ -9,7 +9,8 @@ GameState::GameState(Game& game) :
     state_(STATE::NIGHT),
     game_(game),
     phase_(0),
-    timer_(boost::asio::deadline_timer(io_, boost::posix_time::seconds(kDayTime)))
+    timer_(boost::asio::deadline_timer(io_, boost::posix_time::seconds(kDayTime))),
+    strand_(io_)
 {
 }
 
@@ -21,6 +22,8 @@ GameState::~GameState()
 
 void GameState::changeNextState()
 {
+    work_.reset();
+    io_.stop();
     switch (state_) {
         case STATE::DAY: {
             state_ = STATE::FINAL_STATEMENT;
@@ -49,20 +52,18 @@ void GameState::changeNextState()
             break;
         }
     }
-
-    timer_.async_wait(boost::bind(
+    work_.reset(new boost::asio::io_service::work(io_));
+    timer_.async_wait(boost::asio::bind_executor(strand_,boost::bind(
         &GameState::changeNextState,
         this,
-        boost::asio::placeholders::error,
-        state_,
-        phase_));
-    thread_ = std::make_shared<std::thread>([&] {io_.run(); });
-    thread_->detach();
+        boost::asio::placeholders::error)));
+    io_.restart();
+    thread_ = boost::thread(boost::bind(&boost::asio::io_service::run, &io_));
 }
 
-void GameState::changeNextState(const boost::system::error_code& e, STATE state, int phase)
+void GameState::changeNextState(const boost::system::error_code& e)
 {
-    if (e.value() == 0 && phase_ == phase && state_ == state) {
+    if (e.value() == 0) {
         game_.notify("Time is over.");
         changeNextState();
     } else {

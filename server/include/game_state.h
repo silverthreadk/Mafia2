@@ -3,8 +3,8 @@
 
 #include <string>
 #include <memory>
-#include <thread>
 #include <boost/asio.hpp>
+#include <boost/thread.hpp>
 
 class Game;
 
@@ -28,15 +28,17 @@ public:
     bool isNight() { return state_ == NIGHT; }
 
 private:
-    void changeNextState(const boost::system::error_code& e, STATE state, int phase);
+    void changeNextState(const boost::system::error_code& e);
 
     STATE state_;
     Game& game_;
     int phase_;
 
-    std::shared_ptr<std::thread> thread_;
     boost::asio::io_service io_;
+    boost::shared_ptr<boost::asio::io_service::work> work_;
     boost::asio::deadline_timer timer_;
+    boost::thread thread_;
+    boost::asio::io_context::strand strand_;
 
     const int kDayTime = 300;
     const int kFinalStatementTime = 20;
