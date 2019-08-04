@@ -1,6 +1,7 @@
 #include "session.h"
 
 #include <memory>
+#include <boost/lexical_cast.hpp>
 
 #include "room.h"
 #include "player.h"
@@ -9,7 +10,7 @@
 Session::Session(boost::asio::ip::tcp::socket socket, Room& room)
     : socket_(std::move(socket)),
     room_(room),
-    player_(std::make_shared<Player>(*this, room))
+    player_(std::make_shared<Player>(*this, room, boost::lexical_cast<std::string>(socket_.remote_endpoint())))
 {
 }
 

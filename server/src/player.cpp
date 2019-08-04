@@ -1,13 +1,30 @@
 #include "player.h"
 
+#include <cstdio>
+#include <boost/uuid/sha1.hpp>
+
 #include "session.h"
 #include "room.h"
 #include "game.h"
 
 
-Player::Player(Session& session, Room& room) :
+static std::string convert(const std::string& p_arg) {
+    boost::uuids::detail::sha1 sha1;
+    sha1.process_bytes(p_arg.data(), p_arg.size());
+    unsigned hash[5] = { 0 };
+    sha1.get_digest(hash);
+
+    char buf[9] = { 0 };
+
+    std::sprintf(buf, "%08x", hash[4]);
+
+    return std::string(buf+3);
+}
+
+Player::Player(Session& session, Room& room, const std::string& nickname) :
     session_(session),
     room_(room),
+    nickname_(convert(nickname)),
     role_(INNOCENT),
     dead_(true),
     suspicious_(""),

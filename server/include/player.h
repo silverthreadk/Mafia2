@@ -12,7 +12,7 @@ class Player{
 public:
     enum ROLE { INNOCENT, MAFIA };
 
-    Player(Session& session, Room& room);
+    Player(Session& session, Room& room, const std::string& nickname);
 
     ~Player();
 
