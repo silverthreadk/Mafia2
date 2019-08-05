@@ -49,6 +49,11 @@ std::string Game::getAlivePlayers() {
 
 void Game::play()
 {
+    notify("At the start of the game, each player is secretly assigned a role affiliated with one of these teams.\n"
+        "The game has two alternating phases : one, during which the mafia may covertly murder an innocent,\n"
+        "and two, in which surviving players debate the identities of the mafia and vote to eliminate a suspect.\n"
+        "The game continues until all of the mafia have been eliminated or until the mafia outnumber the innocents.\n"
+        "Good luck!");
     assignRoles();
     state_->changeNextState();
 }
@@ -69,13 +74,13 @@ void Game::assignRoles()
     for (int i = 0; i < number_of_mafia_; ++i) {
         mafia_.insert(player_list[i]);
         player_list[i]->play(shared_from_this(), Player::ROLE::MAFIA);
-        player_list[i]->notify("you are mafia!");
+        player_list[i]->notify("You are mafia!");
     }
 
     for (int i = number_of_mafia_; i < player_list.size(); ++i) {
         innocents_.insert(player_list[i]);
         player_list[i]->play(shared_from_this());
-        player_list[i]->notify("you are innocent!");
+        player_list[i]->notify("You are innocent!");
     }
 }
 
@@ -119,6 +124,8 @@ bool Game::handleVoting(const bool mafia)
 {
     if (!state_->isFinalStatement()) return false;
     ++number_of_vote_;
+
+    notify("Number of vote : " + std::to_string(number_of_vote_));
 
     if (mafia) {
         ++number_of_vote_on_mafia_;

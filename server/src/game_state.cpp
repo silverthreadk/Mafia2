@@ -27,8 +27,8 @@ void GameState::changeNextState()
     switch (state_) {
         case STATE::DAY: {
             state_ = STATE::FINAL_STATEMENT;
-            game_.notify(game_.getSuspicious() + " can make the final statement.");
-            game_.notify("If you think that " + game_.getSuspicious() + " is mafia, send </mafia>. If not, send </innocent>.");
+            game_.notify(game_.getSuspicious() + " can make the final statement.\n"
+                "If you think that " + game_.getSuspicious() + " is mafia, send </mafia>. If not, send </innocent>.");
             timer_ = boost::asio::deadline_timer(io_, boost::posix_time::seconds(kFinalStatementTime));
             std::cout << "final statement" << std::endl;
             break;
@@ -45,8 +45,10 @@ void GameState::changeNextState()
             state_ = STATE::DAY;
             ++phase_;
             game_.readyForNextPhase();
-            game_.notify("Night has fallen.");
-            game_.notify("Players should debate the identities of the mafia and vote to eliminate a suspect.");
+            game_.notify("Night has fallen.\n"
+                "Players should debate the identities of the mafia and vote to eliminate a suspect.\n"
+                "If you think the player is a suspect, send </vote nickname>\n"
+                "If you want to check alive players, send </list>");
             timer_ = boost::asio::deadline_timer(io_, boost::posix_time::seconds(kDayTime));
             std::cout << "day" << std::endl;
             break;
