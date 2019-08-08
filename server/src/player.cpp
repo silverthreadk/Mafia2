@@ -1,6 +1,7 @@
 #include "player.h"
 
 #include <cstdio>
+#include <regex>
 #include <boost/uuid/sha1.hpp>
 
 #include "session.h"
@@ -19,6 +20,11 @@ static std::string convert(const std::string& p_arg) {
     std::sprintf(buf, "%08x", hash[4]);
 
     return std::string(buf+3);
+}
+
+static bool isValid(const std::string& name) {
+    const std::regex pattern("([\xb0-\xc8]|[\xa1-\xfe]|[a-zA-Z0-9])+");
+    return std::regex_match(name, pattern);
 }
 
 Player::Player(Session& session, Room& room, const std::string& nickname) :
@@ -57,6 +63,10 @@ void Player::chat(const std::string& message) {
 void Player::changeNickname(const std::string& nickname) {
     if (!game_.expired()) {
         notify("Allow to change the nickname only before the game is started.");
+        return;
+    }
+    if (!isValid(nickname)) {
+        notify("Nickname is invalid.");
         return;
     }
 
