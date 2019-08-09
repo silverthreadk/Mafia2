@@ -55,6 +55,7 @@ void Player::chat(const std::string& message) {
             if (role_ == MAFIA) game->mafiaChat(chat_message);
             return;
         }
+        if (dead_) return;
     }
 
     room_.deliver(Message(chat_message));
