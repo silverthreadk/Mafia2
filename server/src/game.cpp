@@ -58,6 +58,19 @@ void Game::play()
     state_->changeNextState();
 }
 
+void Game::leave(const std::string& nickname) {
+    if (players_[nickname]->isMafia()) {
+        mafia_.erase(players_[nickname]);
+        --number_of_mafia_;
+    }
+    --number_of_survivors_;
+    players_.erase(nickname);
+
+    if (gameOver()) {
+        room_.gameOver();
+    }
+}
+
 void Game::assignRoles()
 {
     std::random_device rd;
@@ -78,7 +91,6 @@ void Game::assignRoles()
     }
 
     for (int i = number_of_mafia_; i < player_list.size(); ++i) {
-        innocents_.insert(player_list[i]);
         player_list[i]->play(shared_from_this());
         player_list[i]->notify("You are innocent!");
     }

@@ -24,6 +24,11 @@ void Room::leave(chat_participant_ptr participant)
     participants_.erase(participant);
 }
 
+bool Room::exist(chat_participant_ptr participant)
+{
+    return participants_.find(participant) != participants_.end();
+}
+
 void Room::deliver(const Message& msg)
 {
     recent_msgs_.push_back(msg);

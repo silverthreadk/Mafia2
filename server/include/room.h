@@ -24,6 +24,8 @@ public:
 
     void leave(chat_participant_ptr participant);
 
+    bool exist(chat_participant_ptr participant);
+
     void deliver(const Message& msg);
 
     void playGame();

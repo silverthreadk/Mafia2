@@ -103,6 +103,15 @@ void Player::play(std::shared_ptr<Game> game, ROLE role) {
     dead_ = false;
 }
 
+void Player::leave() {
+    room_.deliver(Message(nickname_ + " has left the game."));
+    if (!isAlive()) return;
+
+    if (game_.expired()) return;
+    auto game = game_.lock();
+    game->leave(nickname_);
+}
+
 void Player::voteFor(const std::string& nickname) {
     if (game_.expired()) return;
     if (dead_) return;

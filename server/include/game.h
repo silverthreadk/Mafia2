@@ -27,6 +27,8 @@ public:
 
     void play();
 
+    void leave(const std::string& nickname);
+
     void readyForNextPhase();
 
     bool handleVoting(const std::string& previous, const std::string& suspicious);
@@ -51,7 +53,6 @@ private:
 
     std::map<std::string, std::shared_ptr<Player> > players_;
     std::set<std::shared_ptr<Player> > mafia_;
-    std::set<std::shared_ptr<Player> > innocents_;
 
     std::unique_ptr<GameState> state_;
 

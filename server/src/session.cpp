@@ -43,7 +43,10 @@ void Session::do_read_header()
             do_read_body();
         } else
         {
-            room_.leave(shared_from_this());
+            if (room_.exist(shared_from_this())) {
+                player_->leave();
+                room_.leave(shared_from_this());
+            }
         }
     });
 }
@@ -61,7 +64,10 @@ void Session::do_read_body()
             do_read_header();
         } else
         {
-            room_.leave(shared_from_this());
+            if (room_.exist(shared_from_this())) {
+                player_->leave();
+                room_.leave(shared_from_this());
+            }
         }
     });
 }
@@ -83,7 +89,10 @@ void Session::do_write()
             }
         } else
         {
-            room_.leave(shared_from_this());
+            if (room_.exist(shared_from_this())) {
+                player_->leave();
+                room_.leave(shared_from_this());
+            }
         }
     });
 }
