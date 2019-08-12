@@ -28,12 +28,19 @@ public:
 
     void deliver(const Message& msg);
 
+    bool addNickname(const std::string& nickname);
+
+    bool changeNickname(const std::string& src, const std::string& dest);
+
+    void deleteNickname(const std::string& nickname);
+
     void playGame();
 
     void gameOver();
 
 private:
     std::set<chat_participant_ptr> participants_;
+    std::set<std::string> nickname_info_;
     enum { max_recent_msgs = 100 };
     chat_message_queue recent_msgs_;
     std::shared_ptr<Game> game_;

@@ -39,6 +39,23 @@ void Room::deliver(const Message& msg)
         participant->deliver(msg);
 }
 
+bool Room::addNickname(const std::string& nickname) {
+    return nickname_info_.insert(nickname).second;
+}
+
+bool Room::changeNickname(const std::string& src, const std::string& dest) {
+    if (nickname_info_.insert(dest).second) {
+        nickname_info_.erase(src);
+        return true;
+    }
+
+    return false;
+}
+
+void Room::deleteNickname(const std::string& nickname) {
+    nickname_info_.erase(nickname);
+}
+
 void Room::playGame() {
     game_ = std::make_shared<Game>(participants_, *this);
     game_->play();

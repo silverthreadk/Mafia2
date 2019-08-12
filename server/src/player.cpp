@@ -36,6 +36,10 @@ Player::Player(Session& session, Room& room, const std::string& nickname) :
     suspicious_(""),
     voted_(false)
 {
+    int i = 1;
+    while (!room.addNickname(nickname_)) {
+        nickname_ = convert(nickname + std::to_string(i++));
+    };
 }
 
 Player::~Player()
@@ -68,6 +72,11 @@ void Player::changeNickname(const std::string& nickname) {
     }
     if (!isValid(nickname)) {
         notify("Nickname is invalid.");
+        return;
+    }
+
+    if (!room_.changeNickname(nickname_, nickname)) {
+        notify("Nickname is already in use.");
         return;
     }
 
@@ -105,6 +114,7 @@ void Player::play(std::shared_ptr<Game> game, ROLE role) {
 
 void Player::leave() {
     room_.deliver(Message(nickname_ + " has left the game."));
+    room_.deleteNickname(nickname_);
     if (!isAlive()) return;
 
     if (game_.expired()) return;
