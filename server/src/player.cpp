@@ -40,6 +40,7 @@ Player::Player(Session& session, Room& room, const std::string& nickname) :
     while (!room.addNickname(nickname_)) {
         nickname_ = convert(nickname + std::to_string(i++));
     };
+    room_.deliver(Message(nickname_ + " has joined the game."));
 }
 
 Player::~Player()
