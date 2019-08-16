@@ -94,12 +94,12 @@ void Player::notifyList() {
     notify("Survivors : " + game->getAlivePlayers());
 }
 
-void Player::startGame() {
+void Player::startGame(bool add_word) {
     if (!game_.expired()) {
         notify("Game is already running.");
         return;
     }
-    room_.playGame();
+    room_.playGame(add_word);
 }
 
 void Player::readyForNextPhase() {

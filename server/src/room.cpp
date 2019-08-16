@@ -56,9 +56,9 @@ void Room::deleteNickname(const std::string& nickname) {
     nickname_info_.erase(nickname);
 }
 
-void Room::playGame() {
+void Room::playGame(bool add_word) {
     game_ = std::make_shared<Game>(participants_, *this);
-    game_->play();
+    game_->play(add_word);
 }
 
 void Room::gameOver() {

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <random>
+#include <fstream>
 
 #include "session.h"
 #include "room.h"
@@ -10,6 +11,7 @@
 
 Game::Game(std::set<chat_participant_ptr>& players, Room& room) :
     room_(room),
+    word_(""),
     state_(std::make_unique<GameState>(*this)),
     suspicious_(""),
     number_of_survivors_(0),
@@ -47,13 +49,14 @@ std::string Game::getAlivePlayers() {
     return alive_players;
 }
 
-void Game::play()
+void Game::play(bool add_word)
 {
     notify("At the start of the game, each player is secretly assigned a role affiliated with one of these teams.\n"
         "The game has two alternating phases : one, during which the mafia may covertly murder an innocent,\n"
         "and two, in which surviving players debate the identities of the mafia and vote to eliminate a suspect.\n"
         "The game continues until all of the mafia have been eliminated or until the mafia outnumber the innocents.\n"
         "Good luck!");
+    if (add_word) assignWord();
     assignRoles();
     state_->changeNextState();
 }
@@ -93,7 +96,22 @@ void Game::assignRoles()
     for (int i = number_of_mafia_; i < player_list.size(); ++i) {
         player_list[i]->play(shared_from_this());
         player_list[i]->notify("You are innocent!");
+        if (word_ != "") player_list[i]->notify("The word is " + word_ + ".");
     }
+}
+
+void Game::assignWord() {
+    std::ifstream in("../../server/resource/word.txt");
+    if (!in.is_open()) return;
+
+    char buf[100];
+    std::vector<std::string> word_list;
+    while (in) {
+        in.getline(buf, 100);
+        word_list.push_back(std::string(buf));
+    }
+
+    word_ = word_list[rand() % word_list.size()];
 }
 
 void Game::readyForNextPhase() {
@@ -183,12 +201,15 @@ void Game::handleKilling(const std::string& target) {
 bool Game::gameOver() {
     if (number_of_mafia_ == 0) {
         notify("Innocents win!");
-        return true;
     } else if (number_of_survivors_ - number_of_mafia_ <= number_of_mafia_) {
         notify("Mafia win!");
-        return true;
+    } else {
+        return false;
     }
-    return false;
+
+    if(word_ != "") notify("The word was " + word_ + ".");
+
+    return true;
 }
 
 bool Game::isNight() { return state_->isNight(); }

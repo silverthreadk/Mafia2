@@ -24,7 +24,7 @@ public:
 
     void notifyList();
 
-    void startGame();
+    void startGame(bool add_word = false);
 
     void play(std::shared_ptr<Game> game, ROLE role = INNOCENT);
 

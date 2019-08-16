@@ -25,7 +25,7 @@ public:
 
     std::string getAlivePlayers();
 
-    void play();
+    void play(bool add_word);
 
     void leave(const std::string& nickname);
 
@@ -46,11 +46,14 @@ public:
 private:
     void assignRoles();
 
+    void assignWord();
+
     bool gameOver();
 
 private:
     Room& room_;
 
+    std::string word_;
     std::map<std::string, std::shared_ptr<Player> > players_;
     std::set<std::shared_ptr<Player> > mafia_;
 

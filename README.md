@@ -8,6 +8,7 @@ Mafia is a party game using chat.
 * Mafia - Will kill other players and try to convince other players who the mafia is without revealing themselves
 * Inncents - the most basic role, who votes and tries to figure out the mafias and vote them off
 * The game continues until all of the mafia have been eliminated or until the mafia outnumber the innocents.
+* (Optional) At the beginning of the game, innocents only receive the words.
 
 ## Getting Started
 

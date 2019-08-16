@@ -29,7 +29,9 @@ void RequestHandler::handleRequest(const Message& msg, std::shared_ptr<Player> p
             player->vote(false);
         }
     } else if (command.size() >= 2) {
-        if (command[0] == "/CHAT") {
+        if (command[0] == "/START" && command[1] == "WORD") {
+            player->startGame(true);
+        } else if (command[0] == "/CHAT") {
             player->chat(command[1]);
         } else if (command[0] == "/NICK") {
             player->changeNickname(command[1]);
@@ -57,6 +59,10 @@ std::vector<std::string> RequestHandler::parse(const Message& msg)
     boost::split(command, message, boost::is_any_of(" \t"), boost::token_compress_on);
 
     boost::to_upper(command[0]);
+
+    if (command[0] == "/START" && command.size() >= 2) {
+        boost::to_upper(command[1]);
+    }
 
     return command;
 }
