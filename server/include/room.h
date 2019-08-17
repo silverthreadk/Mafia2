@@ -34,7 +34,7 @@ public:
 
     void deleteNickname(const std::string& nickname);
 
-    void playGame(bool add_word);
+    bool playGame(bool add_word);
 
     void gameOver();
 

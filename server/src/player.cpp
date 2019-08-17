@@ -99,7 +99,9 @@ void Player::startGame(bool add_word) {
         notify("Game is already running.");
         return;
     }
-    room_.playGame(add_word);
+    if (!room_.playGame(add_word)) {
+        notify("Must have at least 3 players to start a game.");
+    };
 }
 
 void Player::readyForNextPhase() {
