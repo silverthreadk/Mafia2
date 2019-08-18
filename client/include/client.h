@@ -7,9 +7,8 @@
 
 typedef std::deque<Message> chat_message_queue;
 
-class Client
-{
-public:
+class Client {
+ public:
     Client(boost::asio::io_context& io_context,
         const boost::asio::ip::tcp::resolver::results_type& endpoints);
 
@@ -17,7 +16,7 @@ public:
 
     void close();
 
-private:
+ private:
     void do_connect(const boost::asio::ip::tcp::resolver::results_type& endpoints);
 
     void do_read_header();
@@ -26,7 +25,7 @@ private:
 
     void do_write();
 
-private:
+ private:
     boost::asio::io_context& io_context_;
     boost::asio::ip::tcp::socket socket_;
     Message read_msg_;

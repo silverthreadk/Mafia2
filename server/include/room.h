@@ -4,6 +4,7 @@
 #include <deque>
 #include <set>
 #include <memory>
+#include <string>
 #include <boost/asio.hpp>
 
 #include "message.h"
@@ -14,9 +15,8 @@ class Game;
 class Participant;
 typedef std::shared_ptr<Participant> chat_participant_ptr;
 
-class Room
-{
-public:
+class Room {
+ public:
     Room();
     ~Room();
 
@@ -38,7 +38,7 @@ public:
 
     void gameOver();
 
-private:
+ private:
     std::set<chat_participant_ptr> participants_;
     std::set<std::string> nickname_info_;
     enum { max_recent_msgs = 100 };
@@ -46,4 +46,4 @@ private:
     std::shared_ptr<Game> game_;
 };
 
-#endif
+#endif  // ROOM_H_

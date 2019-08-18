@@ -17,7 +17,7 @@ static std::string convert(const std::string& p_arg) {
 
     char buf[9] = { 0 };
 
-    std::sprintf(buf, "%08x", hash[4]);
+    std::snprintf(buf, sizeof(buf), "%08x", hash[4]);
 
     return std::string(buf+3);
 }
@@ -27,24 +27,22 @@ static bool isValid(const std::string& name) {
     return std::regex_match(name, pattern);
 }
 
-Player::Player(Session& session, Room& room, const std::string& nickname) :
-    session_(session),
-    room_(room),
+Player::Player(const Session& session, const Room& room, const std::string& nickname) :
+    session_(const_cast<Session&>(session)),
+    room_(const_cast<Room&>(room)),
     nickname_(convert(nickname)),
     role_(INNOCENT),
     dead_(true),
     suspicious_(""),
-    voted_(false)
-{
+    voted_(false) {
     int i = 1;
-    while (!room.addNickname(nickname_)) {
+    while (!room_.addNickname(nickname_)) {
         nickname_ = convert(nickname + std::to_string(i++));
-    };
+    }
     room_.deliver(Message(nickname_ + " has joined the game."));
 }
 
-Player::~Player()
-{
+Player::~Player() {
 }
 
 void Player::notify(const std::string& message) {
@@ -101,7 +99,7 @@ void Player::startGame(bool add_word) {
     }
     if (!room_.playGame(add_word)) {
         notify("Must have at least 3 players to start a game.");
-    };
+    }
 }
 
 void Player::readyForNextPhase() {

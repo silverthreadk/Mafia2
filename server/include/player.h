@@ -9,10 +9,10 @@ class Room;
 class Game;
 
 class Player{
-public:
+ public:
     enum ROLE { INNOCENT, MAFIA };
 
-    Player(Session& session, Room& room, const std::string& nickname);
+    Player(const Session& session, const Room& room, const std::string& nickname);
 
     ~Player();
 
@@ -57,4 +57,4 @@ private:
     bool voted_;
 };
 
-#endif
+#endif  // PLAYER_H_

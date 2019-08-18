@@ -1,14 +1,10 @@
-#include "client.h"
-
-#include <thread>
 #include <iostream>
 
-int main(int argc, char* argv[])
-{
-    try
-    {
-        if (argc != 3)
-        {
+#include "client.h"
+
+int main(int argc, char* argv[]) {
+    try {
+        if (argc != 3) {
             std::cerr << "Usage: Client <host> <port>\n";
             return 1;
         }
@@ -21,9 +17,8 @@ int main(int argc, char* argv[])
 
         std::thread t([&io_context]() { io_context.run(); });
 
-        char line[Message::max_body_length + 1];
-        while (std::cin.getline(line, Message::max_body_length + 1))
-        {
+        char line[Message::kMaxBodyLength + 1];
+        while (std::cin.getline(line, Message::kMaxBodyLength + 1)) {
             Message msg;
             msg.body_length(std::strlen(line));
             std::memcpy(msg.body(), line, msg.body_length());
@@ -33,8 +28,7 @@ int main(int argc, char* argv[])
 
         c.close();
         t.join();
-    } catch (std::exception& e)
-    {
+    } catch (std::exception& e) {
         std::cerr << "Exception: " << e.what() << "\n";
     }
 

@@ -9,14 +9,15 @@
 class Game;
 
 class GameState {
-public:
+ public:
     enum STATE {
         DAY,
         FINAL_STATEMENT,
         NIGHT
     };
 
-    GameState(Game& game);
+    explicit GameState(const Game& game);
+
     ~GameState();
 
     void changeNextState();
@@ -27,7 +28,7 @@ public:
 
     bool isNight() { return state_ == NIGHT; }
 
-private:
+ private:
     void changeNextState(const boost::system::error_code& e);
 
     STATE state_;
@@ -44,4 +45,4 @@ private:
     const int kFinalStatementTime = 20;
     const int kNightTime = 20;
 };
-#endif
+#endif  // GAME_STATE_H_

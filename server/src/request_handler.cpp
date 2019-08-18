@@ -9,12 +9,7 @@
 #include "message.h"
 #include "player.h"
 
-RequestHandler::RequestHandler()
-{
-}
-
-void RequestHandler::handleRequest(const Message& msg, std::shared_ptr<Player> player)
-{
+void RequestHandler::handleRequest(const Message& msg, std::shared_ptr<Player> player) {
     if (msg.body_length() == 0) return;
     const std::vector<std::string> command = RequestHandler::parse(msg);
 
@@ -43,8 +38,7 @@ void RequestHandler::handleRequest(const Message& msg, std::shared_ptr<Player> p
     }
 }
 
-std::vector<std::string> RequestHandler::parse(const Message& msg)
-{
+std::vector<std::string> RequestHandler::parse(const Message& msg) {
     std::string message(msg.body(), msg.body_length());
 
     if (message.at(0) != '/') {

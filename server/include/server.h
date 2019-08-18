@@ -5,17 +5,16 @@
 #include "message.h"
 #include "room.h"
 
-class Server
-{
-public:
+class Server {
+ public:
     Server(boost::asio::io_context& io_context,
         const boost::asio::ip::tcp::endpoint& endpoint);
 
-private:
+ private:
     void do_accept();
 
     boost::asio::ip::tcp::acceptor acceptor_;
     Room room_;
 };
 
-#endif
+#endif  // SERVER_H_

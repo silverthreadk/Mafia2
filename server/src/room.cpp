@@ -4,33 +4,27 @@
 #include "game.h"
 
 Room::Room() :
-    game_(nullptr)
-{
+    game_(nullptr) {
 }
 
-Room::~Room()
-{
+Room::~Room() {
 }
 
-void Room::join(chat_participant_ptr participant)
-{
+void Room::join(chat_participant_ptr participant) {
     participants_.insert(participant);
     for (auto msg : recent_msgs_)
         participant->deliver(msg);
 }
 
-void Room::leave(chat_participant_ptr participant)
-{
+void Room::leave(chat_participant_ptr participant) {
     participants_.erase(participant);
 }
 
-bool Room::exist(chat_participant_ptr participant)
-{
+bool Room::exist(chat_participant_ptr participant) {
     return participants_.find(participant) != participants_.end();
 }
 
-void Room::deliver(const Message& msg)
-{
+void Room::deliver(const Message& msg) {
     recent_msgs_.push_back(msg);
     while (recent_msgs_.size() > max_recent_msgs)
         recent_msgs_.pop_front();

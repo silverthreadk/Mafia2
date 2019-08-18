@@ -9,24 +9,22 @@
 #include "player.h"
 #include "game_state.h"
 
-Game::Game(std::set<chat_participant_ptr>& players, Room& room) :
-    room_(room),
+Game::Game(const std::set<chat_participant_ptr>& players, const Room& room) :
+    room_(const_cast<Room&>(room)),
     word_(""),
     state_(std::make_unique<GameState>(*this)),
     suspicious_(""),
     number_of_survivors_(0),
     number_of_mafia_(0),
     number_of_vote_(0),
-    number_of_vote_on_mafia_(0)
-{
+    number_of_vote_on_mafia_(0) {
     for (auto player : players) {
         auto session = std::dynamic_pointer_cast<Session>(player);
         players_[session->getPlayer()->getNickname()] = session->getPlayer();
     }
 }
 
-Game::~Game()
-{
+Game::~Game() {
 }
 
 void Game::notify(const std::string& message) {
@@ -49,8 +47,7 @@ std::string Game::getAlivePlayers() {
     return alive_players;
 }
 
-void Game::play(bool add_word)
-{
+void Game::play(bool add_word) {
     notify("At the start of the game, each player is secretly assigned a role affiliated with one of these teams.\n"
         "The game has two alternating phases : one, during which the mafia may covertly murder an innocent,\n"
         "and two, in which surviving players debate the identities of the mafia and vote to eliminate a suspect.\n"
@@ -74,8 +71,7 @@ void Game::leave(const std::string& nickname) {
     }
 }
 
-void Game::assignRoles()
-{
+void Game::assignRoles() {
     std::random_device rd;
     std::mt19937 g(rd());
     std::vector<std::shared_ptr<Player> > player_list;
@@ -125,8 +121,7 @@ void Game::readyForNextPhase() {
     }
 }
 
-bool Game::handleVoting(const std::string& previous, const std::string& suspicious)
-{
+bool Game::handleVoting(const std::string& previous, const std::string& suspicious) {
     if (!state_->isDay()) return false;
 
     auto it = players_.find(suspicious);
@@ -142,16 +137,14 @@ bool Game::handleVoting(const std::string& previous, const std::string& suspicio
     return true;
 }
 
-void Game::checkVoting(const std::string& suspicious)
-{
+void Game::checkVoting(const std::string& suspicious) {
     if (ballot_box_[suspicious] <= number_of_survivors_ / 2) return;
 
     suspicious_ = suspicious;
     state_->changeNextState();
 }
 
-bool Game::handleVoting(const bool mafia)
-{
+bool Game::handleVoting(const bool mafia) {
     if (!state_->isFinalStatement()) return false;
     ++number_of_vote_;
 
@@ -207,10 +200,9 @@ bool Game::gameOver() {
         return false;
     }
 
-    if(word_ != "") notify("The word was " + word_ + ".");
+    if (word_ != "") notify("The word was " + word_ + ".");
 
     return true;
 }
 
 bool Game::isNight() { return state_->isNight(); }
-

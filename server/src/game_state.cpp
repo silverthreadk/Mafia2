@@ -1,27 +1,24 @@
 #include "game_state.h"
 
-#include <boost/bind.hpp>
 #include <iostream>
+#include <boost/bind.hpp>
 
 #include "game.h"
 
-GameState::GameState(Game& game) :
+GameState::GameState(const Game& game) :
     state_(STATE::NIGHT),
-    game_(game),
+    game_(const_cast<Game&>(game)),
     phase_(0),
     timer_(boost::asio::deadline_timer(io_, boost::posix_time::seconds(kDayTime))),
-    strand_(io_)
-{
+    strand_(io_) {
 }
 
-GameState::~GameState()
-{
+GameState::~GameState() {
     io_.stop();
     timer_.cancel_one();
 }
 
-void GameState::changeNextState()
-{
+void GameState::changeNextState() {
     work_.reset();
     io_.stop();
     switch (state_) {
@@ -55,7 +52,7 @@ void GameState::changeNextState()
         }
     }
     work_.reset(new boost::asio::io_service::work(io_));
-    timer_.async_wait(boost::asio::bind_executor(strand_,boost::bind(
+    timer_.async_wait(boost::asio::bind_executor(strand_, boost::bind(
         &GameState::changeNextState,
         this,
         boost::asio::placeholders::error)));
@@ -63,8 +60,7 @@ void GameState::changeNextState()
     thread_ = boost::thread(boost::bind(&boost::asio::io_service::run, &io_));
 }
 
-void GameState::changeNextState(const boost::system::error_code& e)
-{
+void GameState::changeNextState(const boost::system::error_code& e) {
     if (e.value() == 0) {
         game_.notify("Time is over.");
         changeNextState();

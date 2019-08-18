@@ -14,8 +14,8 @@ typedef std::shared_ptr<Participant> chat_participant_ptr;
 
 class Game :
     public std::enable_shared_from_this<Game> {
-public:
-    Game(std::set<chat_participant_ptr>& players_, Room& room);
+ public:
+    Game(const std::set<chat_participant_ptr>& players_, const Room& room);
 
     ~Game();
 
@@ -43,14 +43,14 @@ public:
 
     const std::string& getSuspicious() { return suspicious_; }
 
-private:
+ private:
     void assignRoles();
 
     void assignWord();
 
     bool gameOver();
 
-private:
+ private:
     Room& room_;
 
     std::string word_;
@@ -69,4 +69,4 @@ private:
     int number_of_vote_on_mafia_;
 };
 
-#endif
+#endif  // GAME_H_
