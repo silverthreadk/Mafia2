@@ -33,6 +33,15 @@ void Room::deliver(const Message& msg) {
         participant->deliver(msg);
 }
 
+std::string Room::getPlayerNicknames() {
+    std::string player_nicknames = "";
+    for (auto nickname : nickname_info_) {
+        player_nicknames += nickname + " / ";
+    }
+
+    return player_nicknames;
+}
+
 bool Room::addNickname(const std::string& nickname) {
     return nickname_info_.insert(nickname).second;
 }

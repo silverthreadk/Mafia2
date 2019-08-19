@@ -85,6 +85,7 @@ void Player::changeNickname(const std::string& nickname) {
 
 void Player::notifyList() {
     if (game_.expired()) {
+        notify("Players : " + room_.getPlayerNicknames());
         return;
     }
     auto game = game_.lock();

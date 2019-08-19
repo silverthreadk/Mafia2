@@ -34,6 +34,8 @@ class Room {
 
     void deleteNickname(const std::string& nickname);
 
+    std::string getPlayerNicknames();
+
     bool playGame(bool add_word);
 
     void gameOver();
