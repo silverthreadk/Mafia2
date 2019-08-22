@@ -14,6 +14,9 @@ void Room::join(chat_participant_ptr participant) {
     participants_.insert(participant);
     for (auto msg : recent_msgs_)
         participant->deliver(msg);
+    if (participants_.size() == 3) {
+        deliver(Message("If you want to play a game, send </start> or </start word>"));
+    }
 }
 
 void Room::leave(chat_participant_ptr participant) {
