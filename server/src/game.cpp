@@ -107,6 +107,7 @@ void Game::assignWord() {
         word_list.push_back(std::string(buf));
     }
 
+    srand(time(nullptr));
     word_ = word_list[rand() % word_list.size()];
 }
 
