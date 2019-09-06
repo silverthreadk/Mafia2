@@ -36,7 +36,7 @@ class GameState {
     int phase_;
 
     boost::asio::io_service io_;
-    boost::shared_ptr<boost::asio::io_service::work> work_;
+    boost::asio::executor_work_guard<boost::asio::io_context::executor_type> work_;
     boost::asio::deadline_timer timer_;
     boost::thread thread_;
     boost::asio::io_context::strand strand_;

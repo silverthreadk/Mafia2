@@ -9,18 +9,20 @@ GameState::GameState(const Game& game) :
     state_(STATE::NIGHT),
     game_(const_cast<Game&>(game)),
     phase_(0),
+    io_(),
+    work_(boost::asio::make_work_guard(io_)),
     timer_(boost::asio::deadline_timer(io_, boost::posix_time::seconds(kDayTime))),
     strand_(io_) {
 }
 
 GameState::~GameState() {
-    io_.stop();
     timer_.cancel_one();
+    work_.reset();
+    thread_.join();
 }
 
 void GameState::changeNextState() {
     work_.reset();
-    io_.stop();
     switch (state_) {
         case STATE::DAY: {
             state_ = STATE::FINAL_STATEMENT;
@@ -51,7 +53,6 @@ void GameState::changeNextState() {
             break;
         }
     }
-    work_.reset(new boost::asio::io_service::work(io_));
     timer_.async_wait(boost::asio::bind_executor(strand_, boost::bind(
         &GameState::changeNextState,
         this,
