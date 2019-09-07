@@ -72,8 +72,8 @@ void Game::leave(const std::string& nickname) {
 }
 
 void Game::assignRoles() {
-    std::random_device rd;
-    std::mt19937 g(rd());
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::mt19937 g(seed);
     std::vector<std::shared_ptr<Player> > player_list;
     std::transform(players_.begin(), players_.end(), back_inserter(player_list), [](std::pair<std::string, std::shared_ptr<Player> > const & pair) {
         return pair.second;
