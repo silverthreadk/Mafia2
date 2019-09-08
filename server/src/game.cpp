@@ -201,6 +201,11 @@ bool Game::gameOver() {
         return false;
     }
 
+    std::string mafia_list = "Mafia : ";
+    for (auto mafia : mafia_) {
+        mafia_list += mafia->getNickname() + " / ";
+    }
+    notify(mafia_list);
     if (word_ != "") notify("The word was " + word_ + ".");
 
     return true;
