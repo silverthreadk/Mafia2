@@ -147,6 +147,7 @@ void Player::vote(const bool mafia) {
     if (dead_) return;
     if (voted_) return;
 
+    voted_ = true;
     auto game = game_.lock();
     game->handleVoting(mafia);
 }
