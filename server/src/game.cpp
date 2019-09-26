@@ -12,7 +12,7 @@
 Game::Game(const std::set<chat_participant_ptr>& players, const Room& room) :
     room_(const_cast<Room&>(room)),
     word_(""),
-    state_(std::make_unique<GameState>(*this)),
+    state_(new GameState(*this)),
     suspicious_(""),
     number_of_survivors_(0),
     number_of_mafia_(0),
