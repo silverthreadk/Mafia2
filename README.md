@@ -1,6 +1,8 @@
 ## Mafia
 Mafia is a party game using chat.
 
+<img src="resource/images/screenshot.jpg">
+
 ### Rule
 * You need at least 3 people to play the game.
 * For every 3 people, there is one mafia. Example: if there are 6 people in your game, there are now two mafia
